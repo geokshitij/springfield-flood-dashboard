@@ -1,0 +1,280 @@
+/* Springfield Township Flood Dashboard */
+
+:root {
+  --bg:        #fafafa;
+  --bg-elev:   #ffffff;
+  --text:     #1f2937;
+  --text-mute:#6b7280;
+  --border:   #e5e7eb;
+  --primary:  #1e5b7f;
+  --accent:   #d97757;
+  --link:     #2563eb;
+  --code-bg:  #f3f4f6;
+  --c1:       #2c7bb6;
+  --c2:       #abd9e9;
+  --c3:       #ffffbf;
+  --c4:       #fdae61;
+  --c5:       #d7191c;
+  --warn-bg:  #fef3c7;
+  --warn-fg:  #92400e;
+  --ok-bg:    #d1fae5;
+  --ok-fg:    #065f46;
+  --shadow:   0 1px 3px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.06);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI",
+               Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg);
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ---------- layout ---------- */
+.app {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 100vh;
+}
+nav.side {
+  background: var(--bg-elev);
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 1rem;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+}
+nav.side .brand {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+  line-height: 1.25;
+}
+nav.side .brand small {
+  display: block;
+  font-weight: 400;
+  font-size: 0.8rem;
+  color: var(--text-mute);
+  margin-top: 4px;
+}
+nav.side ul { list-style: none; padding: 0; margin: 1rem 0; }
+nav.side li { margin: 0; }
+nav.side li.nav-group {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-mute);
+  font-weight: 700;
+  margin: 0.9rem 0 0.25rem 0.4rem;
+}
+nav.side li.nav-group:first-child { margin-top: 0; }
+nav.side a {
+  display: block;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  color: var(--text);
+  font-size: 0.92rem;
+  border-left: 2px solid transparent;
+}
+nav.side a:hover { background: var(--code-bg); text-decoration: none; }
+nav.side a.active {
+  background: #eff6ff;
+  border-left-color: var(--primary);
+  color: var(--primary);
+  font-weight: 600;
+}
+nav.side a.brand { display: block; color: var(--primary); }
+nav.side .nav-foot {
+  margin-top: 2rem;
+  font-size: 0.75rem;
+  color: var(--text-mute);
+}
+
+main {
+  max-width: 980px;
+  padding: 2.5rem 3rem 5rem;
+  margin: 0 auto;
+}
+
+section { margin-bottom: 4rem; }
+section:target { scroll-margin-top: 1rem; }
+
+/* ---------- typography ---------- */
+h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.01em;
+  color: var(--primary);
+}
+h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 2.2rem 0 0.75rem;
+  letter-spacing: -0.01em;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 0.25rem;
+  color: var(--primary);
+}
+h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 1.5rem 0 0.5rem;
+  color: var(--text);
+}
+p { margin: 0 0 0.85rem; }
+.lede { font-size: 1.05rem; color: var(--text-mute); }
+
+/* ---------- headline cards ---------- */
+.headline {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+.card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.2rem 1.1rem;
+  box-shadow: var(--shadow);
+}
+.card .num {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.card .label {
+  font-size: 0.82rem;
+  color: var(--text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.6rem;
+}
+.card .body {
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+/* ---------- tables ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: 0.92rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+thead { background: #f9fafb; }
+th, td {
+  padding: 0.55rem 0.85rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+th { font-weight: 600; color: var(--text); font-size: 0.85rem; }
+tr:last-child td { border-bottom: none; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---------- callouts ---------- */
+.note, .warn, .ok {
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin: 1rem 0;
+  border: 1px solid;
+  font-size: 0.93rem;
+}
+.note { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a; }
+.warn { background: var(--warn-bg); border-color: #fcd34d; color: var(--warn-fg); }
+.ok   { background: var(--ok-bg);   border-color: #6ee7b7; color: var(--ok-fg); }
+
+/* ---------- figures ---------- */
+figure { margin: 1.2rem 0 1.6rem; }
+figure img {
+  width: 100%; height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+figcaption {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--text-mute);
+  text-align: center;
+}
+.map-frame {
+  width: 100%;
+  height: 560px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+/* category swatches */
+.cat {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: white;
+}
+.cat-1 { background: var(--c1); }
+.cat-2 { background: var(--c2); color: #1f2937; }
+.cat-3 { background: var(--c3); color: #1f2937; }
+.cat-4 { background: var(--c4); }
+.cat-5 { background: var(--c5); }
+
+/* code */
+code, pre {
+  font-family: "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.86em;
+}
+code { background: var(--code-bg); padding: 1px 5px; border-radius: 3px; }
+pre {
+  background: var(--code-bg);
+  padding: 0.9rem 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+}
+
+/* references list */
+.refs li { margin-bottom: 0.6rem; font-size: 0.92rem; }
+
+/* footer */
+footer.app-foot {
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--text-mute);
+}
+
+/* mobile */
+@media (max-width: 800px) {
+  .app { grid-template-columns: 1fr; }
+  nav.side {
+    position: static;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 1rem;
+  }
+  main { padding: 1.5rem 1.2rem 3rem; }
+  .headline { grid-template-columns: 1fr; }
+  .map-frame { height: 400px; }
+}

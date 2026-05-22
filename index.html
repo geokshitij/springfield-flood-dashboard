@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Springfield Township Flood Dashboard</title>
+<meta name="description" content="Where to prioritize flood mitigation in Springfield Township, Bucks County, PA. AGU Thriving Earth Exchange community-science project.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="app">
+
+<nav class="side">
+  <a class="brand" href="#purpose">
+    Springfield Twp<br>
+    Flood Dashboard
+    <small>Bucks County, PA · AGU TEX</small>
+  </a>
+
+  <ul>
+    <li class="nav-group">Findings</li>
+    <li><a href="#purpose">Purpose &amp; main message</a></li>
+    <li><a href="#explore">Explore the map</a></li>
+    <li><a href="#findings-precip">Design rainfall, 1991 to 2025</a></li>
+    <li><a href="#findings-climate">Climate uplift (CMIP6)</a></li>
+    <li><a href="#findings-map">Where flood risk concentrates</a></li>
+    <li><a href="#findings-sites">Priority sites and the well</a></li>
+
+    <li class="nav-group">How we got here</li>
+    <li><a href="#method-inputs">Inputs and weights</a></li>
+    <li><a href="#method-sensitivity">Sensitivity to weights</a></li>
+    <li><a href="#method-references">References</a></li>
+
+    <li class="nav-group">Acting on this</li>
+    <li><a href="#act-caveats">Caveats</a></li>
+    <li><a href="#act-next">Next steps</a></li>
+    <li><a href="#act-contact">Contact the team</a></li>
+  </ul>
+
+  <div class="nav-foot">
+    Updated 2026-05-21 ·
+    <a href="https://thrivingearthexchange.org/project/springfield-township-pa/" target="_blank" rel="noopener">TEX project page</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============================================================= -->
+<!-- ABSTRACT: foreword + summary, on one page                      -->
+<!-- ============================================================= -->
+<section id="purpose">
+  <h1>Three flood-resilience decisions for the Comprehensive Plan update</h1>
+
+  <p class="lede">
+    Springfield Township is rewriting its Comprehensive Plan in a climate
+    where the rainfall numbers the current ordinances were built on no
+    longer match what the township actually receives. This page summarizes
+    what we (the AGU Thriving Earth Exchange science team paired with the
+    Township) found, and the three decisions the Township could reasonably
+    fold into the update.
+  </p>
+
+  <div class="note">
+    <strong>Bottom line for the Supervisors.</strong>
+    Today's largest one-day storms are already running about a quarter
+    above the federal regulatory rainfall the ordinances reference, and
+    the climate-model ensemble points to roughly another tenth on top by
+    late century. We recommend the Township consider three changes:
+    <strong>design new stormwater work for an 11-inch one-day storm,
+    focus the next capital cycle on three Cooks Creek crossings,</strong>
+    and <strong>raise the Springtown drinking-water well's emergency
+    generator 8 to 10 feet</strong> above the normal creek level.
+  </div>
+
+  <h2 id="explore">Look at the map first</h2>
+  <p class="lede">
+    Warmer colors mark places more likely to flood than the township
+    average. Open circles are the six road sites the Township already
+    flagged in its Act 167 list; the yellow star is the Springtown
+    drinking-water well. Toggle layers and click a marker for its
+    underlying numbers.
+  </p>
+  <iframe class="map-frame" src="assets/susceptibility_map.html"
+          loading="lazy" style="height: 520px;"
+          title="Springfield Township interactive flood susceptibility map"></iframe>
+  <p class="lede" style="font-size: 0.88rem; color: var(--text-mute); margin-top: 0.4rem;">
+    The map's underlying method, layers, and weights are explained in
+    <a href="#findings-map">Where flood risk concentrates</a> and
+    <a href="#method-inputs">Inputs and weights</a>.
+  </p>
+
+  <h2 id="foreword">Why this matters now</h2>
+  <p>
+    Springfield Township covers about 24 of the 30 square miles of the
+    Cooks Creek Watershed. The current floodplain maps and stormwater
+    ordinances were built on rainfall statistics from before the recent
+    clustering of extreme storms. Hurricane Irene (August 2011) and
+    Hurricane Ida (September 2021) each dropped roughly seven inches of
+    rain on the township in a day, and Ida alone caused about $90,000
+    in township-wide damage. Both storms would have been smaller events
+    in the historical rainfall record the current rulebook assumes.
+  </p>
+  <p>
+    The Comprehensive Plan update is the natural moment to bring those
+    numbers up to date and to put the next round of stormwater capital
+    spending where the data say the risk concentrates. We prepared this
+    page using only public data and code that anyone can rerun, so a
+    follow-on engineering study or grant application can build on every
+    number here without redoing the analysis from scratch.
+  </p>
+
+  <h2 id="findings-summary">What we found, at a glance</h2>
+  <div class="headline" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="card">
+      <span class="label">Today's heaviest storms vs. the rulebook</span>
+      <span class="num">+25%</span>
+      <div class="body">
+        The biggest one-day rainstorm the township should plan for has
+        grown to about <strong>10.3 inches</strong>, against the
+        <strong>8.2 inches</strong> in the federal regulatory reference
+        (NOAA Atlas-14) the ordinances currently cite.
+      </div>
+    </div>
+    <div class="card">
+      <span class="label">Add late-century climate change</span>
+      <span class="num">+10%</span>
+      <div class="body">
+        A 7-model climate ensemble (CMIP6) points to roughly another
+        <strong>+10%</strong> in extreme daily rainfall by 2055-2084.
+        Combine that with today's number and a forward-looking design
+        target is around <strong>11.3 inches</strong> in a day.
+      </div>
+    </div>
+    <div class="card">
+      <span class="label">Three of six known flood sites stand out</span>
+      <span class="num">3 of 6</span>
+      <div class="body">
+        Bridge St &amp; 212, North Mine Rd, and Hickon Rd come out on
+        top of the susceptibility ranking. All three are road crossings
+        of Cooks Creek tributaries with substantial upstream drainage.
+      </div>
+    </div>
+    <div class="card">
+      <span class="label">Springtown drinking-water well</span>
+      <span class="num">8 to 10 ft</span>
+      <div class="body">
+        The well sits essentially at creek level on a Cooks Creek
+        channel. We recommend siting the emergency-generator pad
+        <strong>at least 8 to 10 feet above the normal creek water
+        surface</strong>, pending a quick field measurement that would
+        sharpen the number.
+      </div>
+    </div>
+  </div>
+
+  <h2 id="decisions">Three recommendations for the Comprehensive Plan update</h2>
+  <p>
+    Each recommendation below links to the section of this page that
+    carries its supporting evidence; each is sized to be folded into
+    the Plan update or the next capital cycle without further study.
+  </p>
+  <ul>
+    <li><strong>Update the design-storm value used in the
+      stormwater and floodplain ordinances.</strong> The current
+      8.2 inch (Atlas-14) reference is below what the station record
+      already shows; once climate uplift is included, a roughly
+      <strong>11 inch one-day rainfall</strong> is what the data
+      support for forward-looking infrastructure. Evidence:
+      <a href="#findings-precip">Design rainfall</a> +
+      <a href="#findings-climate">Climate uplift</a>.</li>
+    <li><strong>Focus the next capital cycle on three Cooks Creek
+      road crossings.</strong> Bridge St &amp; 212, North Mine Rd, and
+      Hickon Rd are the three sites where the susceptibility analysis
+      most strongly agrees with the Township's own flood-concern list.
+      The other three sites flag a different failure mode (local
+      stormwater on small drainages) that needs its own workstream.
+      Evidence: <a href="#findings-map">Where flood risk concentrates</a>
+      + <a href="#findings-sites">Priority sites</a>.</li>
+    <li><strong>Specify a generator-pad elevation for the Springtown
+      well.</strong> Plan around <strong>8 to 10 feet above normal
+      creek level</strong>, with a single tape measurement at the
+      well-yard (see <a href="#act-next">Next steps</a>) that would
+      let the consulting engineer turn this into an exact number.
+      Evidence: <a href="#findings-sites">Priority sites and the
+      well</a>.</li>
+  </ul>
+</section>
+
+
+<!-- ============================================================= -->
+<!-- FINDING 1: PRECIPITATION                                       -->
+<!-- ============================================================= -->
+<section id="findings-precip">
+  <h2>Design rainfall, 1991 to 2025</h2>
+
+  <p class="lede">
+    <strong>The biggest one-day storms hitting the township today are
+    about a quarter larger than the federal rainfall numbers the
+    ordinances reference.</strong> The chart and tables below show how
+    we get there from 34 years of rain-gauge records at the Springtown
+    weather station, two miles north of the township.
+  </p>
+
+  <figure>
+    <img src="assets/precip_summary.png"
+         alt="Four-panel chart of annual totals, annual maximum 1-day precipitation, return-period curve, and heavy-precipitation day counts at the Springtown NCEI station from 1991 to 2025">
+    <figcaption>
+      <strong>A storm that the rulebook calls "100-year" should already
+      be sized closer to 10 inches in a day than the 8 inches it
+      currently assumes.</strong>
+      Panel <em>a</em> shows annual rainfall totals; panel <em>b</em>
+      the largest one-day rainfall observed each year; panel <em>c</em>
+      the rarity-vs-size curve that fits a smooth distribution to those
+      annual maxima, against the NOAA Atlas-14 federal reference (green
+      squares); panel <em>d</em> the count of 2-inch and 3-inch days
+      each year. Source: NOAA NCEI station USC00368400, Springtown 1
+      NNE; 32 complete years of 35 used for the fit.
+    </figcaption>
+  </figure>
+
+  <h3 id="precip-table">How big is each "design storm"?</h3>
+  <p>
+    The bottom row of the table is the one to use for the rarest, most
+    damaging storms. A 100-year, 1-day rainfall today is roughly Hurricane
+    Ida (about 7 inches in 24 hours) plus three more inches on top.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Duration</th>
+        <th class="num">2-yr</th>
+        <th class="num">10-yr</th>
+        <th class="num">25-yr</th>
+        <th class="num">50-yr</th>
+        <th class="num">100-yr</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>1-day max (in)</td><td class="num">3.07</td><td class="num">5.44</td><td class="num">7.08</td><td class="num">8.56</td><td class="num"><strong>10.28</strong></td></tr>
+      <tr><td>3-day max (in)</td><td class="num">3.84</td><td class="num">7.11</td><td class="num">9.92</td><td class="num">12.80</td><td class="num"><strong>16.57</strong></td></tr>
+      <tr><td>7-day max (in)</td><td class="num">5.43</td><td class="num">8.19</td><td class="num">9.45</td><td class="num">10.32</td><td class="num"><strong>11.14</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h3>Compared to NOAA Atlas-14, the rainfall basis the ordinances reference</h3>
+  <table>
+    <thead>
+      <tr><th>How rare</th><th class="num">Federal Atlas-14 (in)</th><th class="num">Springtown gauge (in)</th><th class="num">Gap</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1-in-10-year storm</td><td class="num">4.95</td><td class="num">5.44</td><td class="num">+10%</td></tr>
+      <tr><td>1-in-25-year storm</td><td class="num">6.10</td><td class="num">7.08</td><td class="num">+16%</td></tr>
+      <tr><td>1-in-50-year storm</td><td class="num">7.10</td><td class="num">8.56</td><td class="num">+21%</td></tr>
+      <tr><td>1-in-100-year storm</td><td class="num">8.20</td><td class="num">10.28</td><td class="num"><strong>+25%</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <strong>What this means for the Township.</strong> The Atlas-14 values
+    above are approximate references taken from the published federal
+    tables; the engineering consultant should pull the exact Atlas-14
+    point estimates for the Springtown coordinate before any number is
+    quoted in regulatory language. The qualitative finding (roughly a
+    quarter gap at the 100-year level) is what matters and stays the
+    same regardless of small rounding differences.
+  </div>
+
+  <h3 id="precip-trends">The 34-year record at this one station is too short to detect a trend, but that is not "no change"</h3>
+  <p>
+    Statistical tests on the 32 complete years of Springtown rainfall
+    show no significant trend in annual totals, annual maxima, or counts
+    of heavy-rain days at the usual significance level. The record is
+    simply too short to detect the regional climate signal at one
+    gauge. Climate models, looked at separately in
+    <a href="#findings-climate">Climate uplift</a>, do show that signal
+    clearly. The right reading of the table below is "we have not proven
+    a trend at this gauge yet," not "the storms are not getting bigger."
+  </p>
+  <table>
+    <thead><tr><th>Metric</th><th class="num">Slope per year</th><th class="num">Significance (p-value)</th></tr></thead>
+    <tbody>
+      <tr><td>Annual total rainfall (in)</td><td class="num">+0.15</td><td class="num">0.45</td></tr>
+      <tr><td>Largest 1-day rain each year (in)</td><td class="num">+0.024</td><td class="num">0.13</td></tr>
+      <tr><td>Largest 3-day rain each year (in)</td><td class="num">+0.009</td><td class="num">0.76</td></tr>
+      <tr><td>Days with at least 2 inches (per year)</td><td class="num">0.00</td><td class="num">0.96</td></tr>
+      <tr><td>Days with at least 3 inches (per year)</td><td class="num">0.00</td><td class="num">0.39</td></tr>
+    </tbody>
+  </table>
+
+</section>
+
+
+<!-- ============================================================= -->
+<!-- FINDING 2: CLIMATE UPLIFT (CMIP6)                              -->
+<!-- ============================================================= -->
+<section id="findings-climate">
+  <h2>Climate uplift</h2>
+
+  <p class="lede">
+    <strong>On top of the already-larger storms in today's record, a
+    seven-model climate ensemble suggests the typical annual extreme
+    rainfall at the township grows by roughly another 5 to 10 percent
+    by the second half of this century.</strong> We recommend folding
+    that uplift into any new infrastructure designed during the next
+    Comprehensive Plan cycle, so it does not need to be rebuilt before
+    the end of its design life.
+  </p>
+
+  <figure>
+    <img src="assets/cmip6_uplift.png"
+         alt="Two-panel CMIP6 figure: left panel shows per-model uplift dots, ensemble median line, and IQR shaded band, for two SSP scenarios across mid-century and late-century periods; right panel shows three anchor bars: Atlas-14 regulatory at 8.2 inches, station GEV at 10.3 inches today, and planning target at 11.3 inches">
+      <figcaption>
+        <strong>Adding climate uplift to today's gauge-based 10.3 inches
+        gives the roughly 11-inch planning target.</strong>
+        Left: each dot is one of seven CMIP6 climate models; the bold
+        horizontal line is the model-ensemble median; the shaded band is
+        the spread across the middle half of the models. Colors mark
+        emissions scenarios (green = moderate, orange = high). Right:
+        three reference values for the 100-year, 1-day storm, with the
+        climate-model spread shown as whiskers on the planning bar.
+        Source: NASA NEX-GDDP-CMIP6, daily, 0.25 degree, 7 models, 30-year
+        windows.
+      </figcaption>
+  </figure>
+
+  <h3 id="climate-table">How much do extreme rainfalls grow under each scenario?</h3>
+  <p>
+    "SSP2-4.5" is a moderate-emissions future, "SSP5-8.5" is a high-
+    emissions future. The numbers are percent changes in the typical
+    annual extreme rainfall, not in any single record-breaking storm.
+    The middle-half range gives a sense of how much the seven models
+    disagree with each other.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Scenario</th><th>Period</th>
+        <th class="num">Median change</th><th class="num">Middle half (25th to 75th)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>SSP2-4.5 (moderate)</td><td>2025-2054</td><td class="num">+1.0%</td><td class="num">-4.3% to +6.1%</td></tr>
+      <tr><td>SSP2-4.5 (moderate)</td><td>2055-2084</td><td class="num"><strong>+8.8%</strong></td><td class="num">+1.4% to +14.1%</td></tr>
+      <tr><td>SSP5-8.5 (high)</td><td>2025-2054</td><td class="num"><strong>+5.1%</strong></td><td class="num">+3.5% to +9.5%</td></tr>
+      <tr><td>SSP5-8.5 (high)</td><td>2055-2084</td><td class="num"><strong>+10.0%</strong></td><td class="num">+5.1% to +13.9%</td></tr>
+    </tbody>
+  </table>
+
+  <h3>The three reference points for the 100-year, 1-day storm</h3>
+  <table>
+    <thead>
+      <tr><th>Reference</th><th class="num">Inches per day</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>NOAA Atlas-14 (federal, what the ordinance cites today)</td><td class="num">8.2</td></tr>
+      <tr><td>Springtown gauge fit (today's climate)</td><td class="num">10.3</td></tr>
+      <tr><td><strong>Planning target (gauge + 10% climate uplift)</strong></td><td class="num"><strong>~11.3</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <strong>Why we use the typical-extreme number rather than the
+    rarest-of-the-rare.</strong> Climate models can also be asked
+    directly about the 100-year storm itself, but with only 30 years per
+    model in each future window the answer wobbles widely across models
+    (anywhere from a -22% drop to a +28% rise depending on the model).
+    The typical annual extreme is a much steadier signal across models
+    and is what we recommend the Township use as a planning uplift.
+  </div>
+
+</section>
+
+
+<!-- ============================================================= -->
+<!-- FINDING 3: SUSCEPTIBILITY MAP                                  -->
+<!-- ============================================================= -->
+<section id="findings-map">
+  <h2>Where flood risk concentrates</h2>
+
+  <p class="lede">
+    <strong>The map below points to the same flood-prone places the
+    Township already knows from experience, which is the validation
+    test that matters most.</strong>
+    It is a relative ranking of vulnerability built from elevation,
+    distance to streams, soils, and land cover; it does not predict
+    how deep the water would get in any particular storm.
+  </p>
+
+  <figure>
+    <img src="assets/susceptibility_map.png"
+         alt="Map of Springfield Township showing flood susceptibility on a 0 to 1 color scale, with the 6 Act-167 flood-concern road points and the Springtown drinking-water well marked">
+    <figcaption>
+      <strong>The reddest band along the middle of the township traces
+      Cooks Creek and its main tributaries, where all three of the
+      Very-High road sites sit.</strong>
+      Open circles are the six Act-167 flood-concern road sites; the
+      yellow star is the Springtown drinking-water well. Color is the
+      relative susceptibility score from 0 (blue) to 1 (red).
+    </figcaption>
+  </figure>
+
+  <p class="lede" style="font-size:0.92rem;">
+    The layer-toggle interactive version of this map sits
+    <a href="#explore">at the top of the page</a>.
+  </p>
+
+  <h3>How much of the township falls into each susceptibility band?</h3>
+  <p>
+    The five color bands are defined so that each covers roughly a fifth
+    of the township by area; what carries the meaning is where those
+    bands sit on the map, not the area totals themselves.
+  </p>
+  <table>
+    <thead><tr><th>Category</th><th class="num">Area (sq mi)</th><th class="num">% of Twp</th></tr></thead>
+    <tbody>
+      <tr><td><span class="cat cat-1">Very Low</span></td><td class="num">6.10</td><td class="num">20%</td></tr>
+      <tr><td><span class="cat cat-2">Low</span></td><td class="num">6.13</td><td class="num">20%</td></tr>
+      <tr><td><span class="cat cat-3">Moderate</span></td><td class="num">6.15</td><td class="num">20%</td></tr>
+      <tr><td><span class="cat cat-4">High</span></td><td class="num">6.38</td><td class="num">21%</td></tr>
+      <tr><td><span class="cat cat-5">Very High</span></td><td class="num">6.02</td><td class="num">20%</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ============================================================= -->
+<!-- FINDING 3: SITES                                               -->
+<!-- ============================================================= -->
+<section id="findings-sites">
+  <h2>Priority sites and the well</h2>
+
+  <p class="lede">
+    <strong>Three of the six road sites the Township already flagged
+    come out clearly at the top of the susceptibility ranking; the
+    drinking-water well sits just below them.</strong> The bottom three
+    sites score Moderate not because they are safe but because they
+    likely flood from a different mechanism (see below).
+  </p>
+
+  <figure>
+    <img src="assets/flood_points_ranked.png"
+         alt="Horizontal bar chart ranking the 6 flood-concern road points by composite susceptibility, with the well shown as a dashed reference line">
+    <figcaption>
+      <strong>Bridge St &amp; 212, Hickon Rd, and North Mine Rd lead the
+      priority list; the well sits at the boundary between the top tier
+      and the rest.</strong>
+      The dashed vertical line is the susceptibility value at the
+      Springtown drinking-water well. Bar color shows the susceptibility
+      tier: red = Very High, yellow = Moderate.
+    </figcaption>
+  </figure>
+
+  <h3 id="sites-table">The six Act-167 road sites, in priority order</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Site</th>
+        <th class="num">Susceptibility score</th>
+        <th>Tier</th>
+        <th class="num">Height above creek (m)</th>
+        <th class="num">Distance to creek (m)</th>
+        <th class="num">Upstream drainage area (km²)</th>
+        <th class="num">Built-up % nearby</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Bridge St &amp; 212</td><td class="num">0.82</td><td><span class="cat cat-5">Very High</span></td><td class="num">0.0</td><td class="num">0</td><td class="num">16.43</td><td class="num">48</td></tr>
+      <tr><td>North Mine Rd</td><td class="num">0.75</td><td><span class="cat cat-5">Very High</span></td><td class="num">0.0</td><td class="num">0</td><td class="num">3.64</td><td class="num">0</td></tr>
+      <tr><td>Hickon Rd</td><td class="num">0.75</td><td><span class="cat cat-5">Very High</span></td><td class="num">0.0</td><td class="num">0</td><td class="num">2.74</td><td class="num">0</td></tr>
+      <tr><td>Bodder Rd</td><td class="num">0.53</td><td><span class="cat cat-3">Moderate</span></td><td class="num">5.4</td><td class="num">9</td><td class="num">0.01</td><td class="num">0</td></tr>
+      <tr><td>Haupts Bridge Rd</td><td class="num">0.52</td><td><span class="cat cat-3">Moderate</span></td><td class="num">8.8</td><td class="num">19</td><td class="num">0.01</td><td class="num">0</td></tr>
+      <tr><td>Pleasant View Rd</td><td class="num">0.50</td><td><span class="cat cat-3">Moderate</span></td><td class="num">0.0</td><td class="num">365</td><td class="num">0.97</td><td class="num">1</td></tr>
+    </tbody>
+  </table>
+  <p>
+    The three Moderate sites are not safe. They sit off the main creek
+    network at the resolution our maps can resolve, and they almost
+    certainly flood from a different mechanism: stormwater piling up on
+    small local drainages during intense rain. That kind of flooding
+    needs site-specific drainage work rather than the kind of capital
+    project the three Very-High sites call for.
+  </p>
+
+  <h3 id="sites-well">Springtown drinking-water well: how high to mount the generator</h3>
+  <p>
+    Coordinate (decoded from Lorna Yearwood's Google Maps short URL):
+    <strong>40.55481° N, 75.29055° W</strong>. Please confirm this is
+    the right well before acting on the recommendation below.
+  </p>
+  <table>
+    <thead><tr><th>Metric</th><th class="num">Value at the well</th></tr></thead>
+    <tbody>
+      <tr><td>Susceptibility score</td><td class="num">0.58 (High tier)</td></tr>
+      <tr><td>Height above nearest creek</td><td class="num">~0 m (on the channel)</td></tr>
+      <tr><td>Distance to nearest creek</td><td class="num">~0 m</td></tr>
+      <tr><td>Drainage area feeding past the well</td><td class="num">10.3 km² (about 4 mi²)</td></tr>
+      <tr><td>Built-up surface in the nearby 30 m cell</td><td class="num">22%</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn">
+    <strong>Suggested pad height.</strong>
+    Mount the emergency generator at least <strong>8 to 10 feet above
+    the normal Cooks Creek water surface</strong> at the well-yard.
+    That figure stacks 4 to 7 feet for the expected creek rise in a
+    100-year storm on a ~4-square-mile drainage, plus 2 feet of
+    conventional freeboard, plus another half-foot to foot-and-a-half
+    for climate uplift.
+  </div>
+
+  <div class="ok">
+    <strong>One field measurement would sharpen this from a rule of
+    thumb to an engineering number.</strong>
+    A Township staff member or the consulting engineer measuring from
+    the existing generator pad up to (a) the normal creek surface,
+    (b) the Ida 2021 high-water mark, and (c) the Irene 2011 high-water
+    mark would let us turn the 8-to-10-foot range into a single
+    defensible value.
+  </div>
+
+</section>
+
+
+<!-- ============================================================= -->
+<!-- METHOD: INPUTS AND WEIGHTS                                     -->
+<!-- ============================================================= -->
+<section id="method-inputs">
+  <h2>Inputs and weights</h2>
+
+  <p class="lede">
+    <strong>The susceptibility score combines six public spatial
+    layers; each layer's weight comes from a published study in a
+    similar US or European watershed, not from our judgment.</strong>
+    A consultant or peer reviewer can swap any weight and rerun the
+    analysis from the project scripts.
+  </p>
+
+  <h3>The six layers and where their weights come from</h3>
+  <table>
+    <thead><tr><th>Layer</th><th>Source (GEE asset)</th><th class="num">Weight</th><th>Why this weight</th></tr></thead>
+    <tbody>
+      <tr><td>HAND (Height Above Nearest Drainage)</td><td><code>MERIT/Hydro/v1_0_1</code> <code>hnd</code></td><td class="num"><strong>0.30</strong></td><td>Nobre 2011, 2016. Physically subsumes Kazakis 2015's "flow accumulation + elevation" mass.</td></tr>
+      <tr><td>Soils (texture proxy)</td><td><code>OpenLandMap</code> USDA texture class</td><td class="num"><strong>0.20</strong></td><td>Jabbar 2019 used 0.22 in a karst-relevant US basin.</td></tr>
+      <tr><td>Distance to stream</td><td>derived from MERIT upa &gt; 1 km²</td><td class="num"><strong>0.15</strong></td><td>Matches Kazakis 2015 (0.16).</td></tr>
+      <tr><td>Impervious %</td><td><code>NLCD 2021</code></td><td class="num"><strong>0.15</strong></td><td>Jabbar 2019 used 0.36 in a 38%-urban basin; rescaled down because Springfield is mostly rural.</td></tr>
+      <tr><td>Slope</td><td><code>USGS/3DEP/10m_collection</code></td><td class="num"><strong>0.10</strong></td><td>Both Kazakis and Jabbar converge on 0.10.</td></tr>
+      <tr><td>JRC surface-water occurrence</td><td><code>JRC/GSW1_4</code> <code>occurrence</code></td><td class="num"><strong>0.10</strong></td><td>Pekel 2016. Empirical confirmation overlay, kept small and transparent.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<!-- ============================================================= -->
+<!-- METHOD: SENSITIVITY                                            -->
+<!-- ============================================================= -->
+<section id="method-sensitivity">
+  <h2>Does the ranking depend on the weights we chose?</h2>
+
+  <p class="lede">
+    <strong>The three top sites stay the three top sites under every
+    published weighting scheme we tested.</strong> Only the ordering of
+    the lower three sites shifts with the choice of weights, and the
+    direction of that shift is explainable from how each reference
+    study weighted elevation.
+  </p>
+
+  <figure>
+    <img src="assets/sensitivity_bars.png"
+         alt="Grouped bar chart of the same 7 points evaluated under three AHP weight schemes">
+    <figcaption>
+      <strong>Our ranking matches the US-basin scheme (Jabbar et al.
+      2019) almost exactly and differs from the European one (Kazakis
+      et al. 2015) only in the middle of the list.</strong>
+      Disagreement with Kazakis comes from its heavier weight on
+      elevation, which re-shuffles sites that share similar valley-
+      bottom elevations.
+    </figcaption>
+  </figure>
+</section>
+
+
+<!-- ============================================================= -->
+<!-- METHOD: REFERENCES                                             -->
+<!-- ============================================================= -->
+<section id="method-references">
+  <h2>References</h2>
+
+  <h3>Methodological backbone (AHP weighting)</h3>
+  <ul class="refs">
+    <li>Jabbar, F. K., Grote, K., &amp; Tucker, R. E. (2019).
+      <em>A novel approach for assessing watershed susceptibility using
+      weighted overlay and analytical hierarchy process (AHP)
+      methodology: a case study in Eagle Creek Watershed, USA.</em>
+      Environmental Science and Pollution Research, 26(31), 31981 to
+      31997.
+      <a href="https://doi.org/10.1007/s11356-019-06402-5" target="_blank" rel="noopener">doi:10.1007/s11356-019-06402-5</a></li>
+    <li>Kazakis, N., Kougias, I., &amp; Patsialis, T. (2015).
+      <em>Assessment of flood hazard areas at a regional scale using an
+      index-based approach and Analytical Hierarchy Process: Application
+      in Rhodope-Evros region, Greece.</em>
+      Science of the Total Environment, 538, 555 to 563.
+      <a href="https://doi.org/10.1016/j.scitotenv.2015.08.055" target="_blank" rel="noopener">doi:10.1016/j.scitotenv.2015.08.055</a></li>
+    <li>Saaty, T. L. (1990). <em>How to make a decision: The Analytic
+      Hierarchy Process.</em> European Journal of Operational Research,
+      48(1), 9 to 26.
+      <a href="https://doi.org/10.1016/0377-2217(90)90057-I" target="_blank" rel="noopener">doi:10.1016/0377-2217(90)90057-I</a></li>
+  </ul>
+
+  <h3>HAND descriptor</h3>
+  <ul class="refs">
+    <li>Nobre, A. D., Cuartas, L. A., Hodnett, M., Rennó, C. D.,
+      Rodrigues, G., Silveira, A., Waterloo, M., &amp; Saleska, S. (2011).
+      <em>Height Above the Nearest Drainage, a hydrologically relevant
+      new terrain model.</em> Journal of Hydrology, 404(1 to 2), 13 to 29.
+      <a href="https://doi.org/10.1016/j.jhydrol.2011.03.051" target="_blank" rel="noopener">doi:10.1016/j.jhydrol.2011.03.051</a></li>
+    <li>Nobre, A. D., Cuartas, L. A., Momo, M. R., Severo, D. L.,
+      Pinheiro, A., &amp; Nobre, C. A. (2016).
+      <em>HAND contour: a new proxy predictor of inundation extent.</em>
+      Hydrological Processes, 30(2), 320 to 333.
+      <a href="https://doi.org/10.1002/hyp.10581" target="_blank" rel="noopener">doi:10.1002/hyp.10581</a></li>
+  </ul>
+
+  <h3>Datasets we relied on</h3>
+  <ul class="refs">
+    <li>Pekel, J.-F., Cottam, A., Gorelick, N., &amp; Belward, A. S. (2016).
+      <em>High-resolution mapping of global surface water and its
+      long-term changes.</em> Nature, 540(7633), 418 to 422.
+      <a href="https://doi.org/10.1038/nature20584" target="_blank" rel="noopener">doi:10.1038/nature20584</a></li>
+    <li>Yamazaki, D., Ikeshima, D., Sosa, J., Bates, P. D., Allen, G. H.,
+      &amp; Pavelsky, T. M. (2019). <em>MERIT Hydro: A high-resolution
+      global hydrography map based on latest topography dataset.</em>
+      Water Resources Research, 55(6), 5053 to 5073.
+      <a href="https://doi.org/10.1029/2019WR024873" target="_blank" rel="noopener">doi:10.1029/2019WR024873</a></li>
+    <li>NOAA NCEI station
+      <a href="https://www.ncei.noaa.gov/access/past-weather/40.582373494361974,-75.34898218453861,40.54152715629017,-75.25041086640505" target="_blank" rel="noopener">USC00368400 (Springtown 1 NNE)</a>,
+      daily precipitation 1991-12 to 2025-06.</li>
+  </ul>
+</section>
+
+
+<!-- ============================================================= -->
+<!-- ACTING: CAVEATS                                                -->
+<!-- ============================================================= -->
+<section id="act-caveats">
+  <h2>What this dashboard cannot do for you</h2>
+
+  <p class="lede">
+    <strong>Three honest limits the Supervisors should know about
+    before the recommendations on this page move into ordinance
+    language or a capital plan.</strong> Each item below is framed in
+    terms of what it means for the decision, with the technical reason
+    underneath.
+  </p>
+
+  <h3>This map ranks where flooding is more likely, but does not tell you how deep the water will get</h3>
+  <ul>
+    <li>The susceptibility score sorts places relative to each other; it
+      does not produce a water-surface elevation for any storm. For a
+      specific elevation at a specific site, the consulting engineer
+      will still need a site-specific hydraulic analysis. Read the
+      Township's existing FEMA flood maps alongside this dashboard, not
+      in place of them.</li>
+    <li>The underlying stream network resolves Cooks Creek and its
+      bigger tributaries but is too coarse (about 90 metres per pixel)
+      to capture the smallest local drainages. That is why some of the
+      Township's flood-prone sites score Moderate rather than Very
+      High; those sites likely flood from local stormwater rather than
+      Cooks Creek itself.</li>
+    <li>Springfield's limestone karst drives sinkholes and rapid
+      subsurface flow that no surface-water index captures. If a
+      specific parcel under consideration is known to be karst-prone,
+      the dashboard's score is incomplete for that parcel.</li>
+  </ul>
+
+  <h3>We borrowed the weights from similar studies; an hour of local elicitation would refine them</h3>
+  <ul>
+    <li>The six weights that produce the susceptibility score are
+      taken from two published studies in comparable watersheds, not
+      from the Township's own staff or contractors. An informal one-
+      hour pairwise-comparison session with the Township engineer, the
+      Cooks Creek Watershed Association, and the Bucks County Planning
+      Commission would let us replace the borrowed weights with
+      Springfield-specific ones and produce a consistency check. We
+      have not seen that change the top three sites in any test so
+      far.</li>
+    <li>The climate uplift is applied only to the rainfall numbers, not
+      to the spatial map. A future-flood map (today's map redrawn under
+      tomorrow's rainfall) is a reasonable next deliverable but is not
+      what is shown here.</li>
+  </ul>
+
+  <h3>The records we used are real but short</h3>
+  <ul>
+    <li>The Springtown rain-gauge record runs only 34 years, which is
+      enough to estimate the size of today's design storms but not long
+      enough to prove a statistically significant upward trend at that
+      one gauge. The right reading of the trend table is "we have not
+      proven a trend at this gauge yet," not "the storms are not
+      getting bigger."</li>
+    <li>The 10% climate uplift is the most stable signal across seven
+      CMIP6 models. If someone asks instead about the change in the
+      100-year storm itself, the same models disagree widely (the
+      middle half of models lands anywhere from a 22% drop to a 28%
+      rise). We rely on the more stable typical-extreme signal as the
+      planning multiplier.</li>
+    <li>Seven climate models is a modest ensemble. Adding more would
+      tighten the median estimate but is unlikely to change the
+      qualitative finding of roughly 5 to 10% growth in extreme
+      rainfall.</li>
+  </ul>
+</section>
+
+
+<!-- ============================================================= -->
+<!-- ACTING: NEXT STEPS                                             -->
+<!-- ============================================================= -->
+<section id="act-next">
+  <h2>Suggested next steps</h2>
+
+  <p class="lede">
+    <strong>Three short actions, each sized to a single Township staff
+    visit, an hour-long meeting, or a paragraph in the Comprehensive
+    Plan update.</strong> Each item names who could lead it, what
+    specifically we need from them, and how the team would know it
+    landed.
+  </p>
+
+  <ol>
+    <li>
+      <strong>Tape measurement at the Springtown well-yard.</strong>
+      <em>Owner:</em> a Township staff member or the consulting
+      engineer.
+      <em>Ask:</em> three measurements from the existing generator pad
+      up to (a) the normal Cooks Creek water surface today, (b) the
+      Hurricane Ida (Sept 2021) high-water mark if anyone can still
+      identify it, and (c) the Hurricane Irene (Aug 2011) high-water
+      mark if anyone has a reference.
+      <em>By when:</em> before the well's generator specification is
+      finalized.
+      <em>What we do with it:</em> turn the 8 to 10 foot range in this
+      memo into a single defensible pad-height number.
+    </li>
+    <li>
+      <strong>One-hour weight-setting meeting.</strong>
+      <em>Owners:</em> the project science team, the Township engineer,
+      a Cooks Creek Watershed Association representative, and the Bucks
+      County Planning Commission.
+      <em>Ask:</em> walk through the six factors on the susceptibility
+      map and set Springfield-specific weights by pairwise comparison.
+      <em>By when:</em> before the Plan update language goes to public
+      comment.
+      <em>What we do with it:</em> rerun the map and re-verify the
+      priority site list the same day.
+    </li>
+    <li>
+      <strong>Use roughly 11 inches as the planning one-day rainfall in
+      new ordinance language.</strong>
+      <em>Owners:</em> the Township engineer and the Bucks County
+      Planning Commission.
+      <em>Ask:</em> when the Comprehensive Plan update touches
+      stormwater or floodplain provisions, reference the gauge-fit
+      plus 10% climate uplift (roughly 11 inches per day) rather than
+      the 8.2 inch federal default, and cite this dashboard as the
+      basis.
+      <em>By when:</em> during the Plan update drafting cycle.
+      <em>What we do with it:</em> the design rainfall used in any new
+      Township stormwater work is now in line with what the rain gauge
+      and climate models both indicate.
+    </li>
+  </ol>
+</section>
+
+
+<!-- ============================================================= -->
+<!-- ACTING: CONTACT                                                -->
+<!-- ============================================================= -->
+<section id="act-contact">
+  <h2>Contact the team</h2>
+
+  <p class="lede">
+    <strong>This dashboard is the team's public summary. The underlying
+    analysis code, the per-site raw data, and the longer well memo are
+    available on request to anyone the Township directs to us.</strong>
+  </p>
+
+  <div class="headline" style="grid-template-columns: repeat(2, 1fr);">
+    <div class="card">
+      <span class="label">Community Scientist</span>
+      <div style="font-size:1.05rem; font-weight:600; margin-bottom:4px;">Kshitij Dahal</div>
+      <div class="body">
+        Arizona State University<br>
+        <a href="mailto:kdahal3@asu.edu">kdahal3@asu.edu</a>
+      </div>
+    </div>
+    <div class="card">
+      <span class="label">Community Science Fellow</span>
+      <div style="font-size:1.05rem; font-weight:600; margin-bottom:4px;">Sushree Sangita Dash</div>
+      <div class="body">
+        McGill University (PhD candidate)<br>
+        AGU Thriving Earth Exchange
+      </div>
+    </div>
+    <div class="card">
+      <span class="label">Township contact</span>
+      <div style="font-size:1.05rem; font-weight:600; margin-bottom:4px;">Lorna Yearwood</div>
+      <div class="body">
+        Township Supervisor<br>
+        Springfield Township, Bucks County, PA
+      </div>
+    </div>
+    <div class="card">
+      <span class="label">Project hub</span>
+      <div style="font-size:1.05rem; font-weight:600; margin-bottom:4px;">AGU TEX</div>
+      <div class="body">
+        <a href="https://thrivingearthexchange.org/project/springfield-township-pa/"
+           target="_blank" rel="noopener">Project page on Thriving Earth Exchange</a>
+      </div>
+    </div>
+  </div>
+
+  <h3>What we can share</h3>
+  <ul>
+    <li>The well-generator memo to the Township.</li>
+    <li>The 10 m susceptibility GeoTIFF for use in QGIS or ArcGIS.</li>
+    <li>Per-point CSVs of every sampled metric.</li>
+    <li>The analysis scripts (Python and Google Earth Engine).</li>
+  </ul>
+
+  <h3>What this dashboard is, and is not</h3>
+  <p>
+    This is a research-grade <strong>screening tool</strong> built by
+    university scientists with the Springfield Township government and
+    the Cooks Creek Watershed Association under the AGU Thriving Earth
+    Exchange. It is not an engineering certification, a regulatory
+    floodplain map, or a substitute for FEMA NFHL or a detailed
+    hydraulic model. It is meant to inform priority-setting and to be
+    used in conversation with the project team.
+  </p>
+
+  <footer class="app-foot">
+    Springfield Township Flood Dashboard.
+    AGU Thriving Earth Exchange community-science collaboration.
+    Built with Google Earth Engine, pandas, SciPy, matplotlib, and folium.
+    Static site, no JavaScript dependencies beyond the embedded Leaflet map.
+  </footer>
+</section>
+
+
+</main>
+</div>
+
+<script>
+// Scroll-spy: highlight the active section in the sidebar nav.
+(function () {
+  var links = document.querySelectorAll("nav.side a[href^='#']");
+  var byId = {};
+  links.forEach(function (a) {
+    var id = a.getAttribute("href").slice(1);
+    byId[id] = a;
+  });
+  var sections = document.querySelectorAll("main section[id]");
+
+  function onScroll() {
+    var y = window.scrollY + 120;
+    var current = null;
+    sections.forEach(function (s) {
+      if (s.offsetTop <= y) current = s.id;
+    });
+    if (!current) return;
+    Object.keys(byId).forEach(function (id) {
+      byId[id].classList.toggle("active", id === current);
+    });
+  }
+  window.addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+})();
+</script>
+
+</body>
+</html>
