@@ -26,6 +26,8 @@
     <li><a href="#findings-climate">Climate uplift (CMIP6)</a></li>
     <li><a href="#findings-map">Where flood risk concentrates</a></li>
     <li><a href="#findings-sites">Priority sites and the well</a></li>
+    <li><a href="#findings-buildings">Buildings in the high-risk zones</a></li>
+    <li><a href="#findings-receptors">Sensitive receptors</a></li>
 
     <li class="nav-group">How we got here</li>
     <li><a href="#method-inputs">Inputs and weights</a></li>
@@ -39,7 +41,7 @@
   </ul>
 
   <div class="nav-foot">
-    Updated 2026-05-21 ·
+    Updated 2026-07-09 ·
     <a href="https://thrivingearthexchange.org/project/springfield-township-pa/" target="_blank" rel="noopener">TEX project page</a>
   </div>
 </nav>
@@ -53,7 +55,7 @@
   <h1>Three flood-resilience decisions for the Comprehensive Plan update</h1>
 
   <p class="lede">
-    Springfield Township is rewriting its Comprehensive Plan in a climate
+    Springfield Township is updating its Comprehensive Plan in a climate
     where the rainfall numbers the current ordinances were built on no
     longer match what the township actually receives. This page summarizes
     what we (the AGU Thriving Earth Exchange science team paired with the
@@ -386,6 +388,19 @@
     how deep the water would get in any particular storm.
   </p>
 
+  <div class="note">
+    <strong>How to read the susceptibility score.</strong>
+    The score is <strong>relative, and ranked only within Springfield
+    Township</strong> (plus a small surrounding buffer). It is not a
+    probability and not a water depth. The five color bands are defined as
+    fifths of the township, so a place in the <strong>Very High</strong> band
+    is among the most susceptible 20% of Springfield, not a place certain to
+    flood, and a score near 1 means "about as susceptible as it gets in
+    Springfield," not "guaranteed to flood." Because every input layer is
+    scaled within Springfield, the score cannot be compared across towns:
+    our 1 and a neighboring township's 1 do not mean the same thing.
+  </div>
+
   <figure>
     <img src="assets/susceptibility_map.png"
          alt="Map of Springfield Township showing flood susceptibility on a 0 to 1 color scale, with the 6 Act-167 flood-concern road points and the Springtown drinking-water well marked">
@@ -420,6 +435,19 @@
       <tr><td><span class="cat cat-5">Very High</span></td><td class="num">6.02</td><td class="num">20%</td></tr>
     </tbody>
   </table>
+
+  <h3>Where the single highest-scoring point in the township sits</h3>
+  <p>
+    Not one of the pre-flagged sites: searching the full raster for its true
+    maximum finds it in the township's <strong>southwestern corner</strong>,
+    inside the <strong>Highway Commercial</strong> zoning district next to the
+    Development District, the township's commercial/development corridor.
+    Susceptibility there peaks at <strong>0.88</strong>, and the roughly
+    24-acre Very-High cluster around it sits <strong>outside</strong> the
+    FEMA-mapped floodplain. Zoning and susceptibility agree on this corner;
+    FEMA does not, worth weighing in any future review of development there.
+    Details in <a href="#findings-receptors">Sensitive receptors</a>.
+  </p>
 </section>
 
 
@@ -483,9 +511,10 @@
 
   <h3 id="sites-well">Springtown drinking-water well: how high to mount the generator</h3>
   <p>
-    Coordinate (decoded from Lorna Yearwood's Google Maps short URL):
-    <strong>40.55481° N, 75.29055° W</strong>. Please confirm this is
-    the right well before acting on the recommendation below.
+    Coordinate (confirmed by the Township from ArcGIS):
+    <strong>40.554804° N, 75.290566° W</strong>. This sits about 1.5 m from
+    the point we first used, inside the resolution of the underlying data, so
+    the values below are unchanged.
   </p>
   <table>
     <thead><tr><th>Metric</th><th class="num">Value at the well</th></tr></thead>
@@ -518,6 +547,183 @@
     defensible value.
   </div>
 
+</section>
+
+
+<!-- ============================================================= -->
+<!-- FINDING 4: BUILDINGS IN THE HIGH-RISK ZONES                    -->
+<!-- ============================================================= -->
+<section id="findings-buildings">
+  <h2>Buildings in the high-risk zones</h2>
+
+  <p class="lede">
+    <strong>Springfield has kept almost everything out of the mapped FEMA
+    floodplain, yet about 1,470 buildings, most of them homes, fall in the
+    High or Very-High susceptibility bands just outside it.</strong> This
+    answers a question the Township raised: how many, and what kind of,
+    buildings sit in the high-risk areas. It is a screening count from
+    building footprints, not a record of buildings that have actually flooded.
+  </p>
+
+  <h3>How many buildings, and what kind?</h3>
+  <p>
+    Counting building footprints whose center falls in each susceptibility
+    band, and reading the building type from the Bucks County parcel it sits
+    on. The High and Very-High columns are the ones that matter for
+    prioritization. The footprint count includes garages, barns, and sheds, so
+    it runs higher than the number of dwellings.
+  </p>
+  <table>
+    <thead>
+      <tr>
+        <th>Parcel type</th>
+        <th class="num">High</th>
+        <th class="num">Very High</th>
+        <th class="num">High + Very High</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>Residential</td><td class="num">765</td><td class="num">561</td><td class="num"><strong>1,326</strong></td></tr>
+      <tr><td>Commercial</td><td class="num">27</td><td class="num">24</td><td class="num">51</td></tr>
+      <tr><td>Institutional / public</td><td class="num">26</td><td class="num">15</td><td class="num">41</td></tr>
+      <tr><td>Agricultural / open land</td><td class="num">25</td><td class="num">27</td><td class="num">52</td></tr>
+      <tr><td>Other / unknown</td><td class="num">0</td><td class="num">2</td><td class="num">2</td></tr>
+      <tr><td><strong>All types</strong></td><td class="num"><strong>843</strong></td><td class="num"><strong>629</strong></td><td class="num"><strong>1,472</strong></td></tr>
+    </tbody>
+  </table>
+  <p style="font-size:0.9rem; color: var(--text-mute);">
+    Building type comes from the parcel land-use code's broad class
+    (1xxx residential, 2xxx farmland or open land, 4xxx commercial,
+    5xxx/8xxx/9xxx institutional or public), validated by spot-checking, not a
+    building-by-building use survey.
+  </p>
+
+  <h3>Most flagged buildings sit just outside the mapped FEMA floodplain</h3>
+
+  <figure>
+    <img src="assets/fema_overlay_map.png"
+         alt="Map of Springfield Township showing the flood-susceptibility raster, the FEMA 1%-annual-chance floodplain as a thin blue corridor along Cooks Creek, and the High/Very-High buildings as dots, almost all of them outside the floodplain. The Springtown well is marked with a star.">
+    <figcaption>
+      <strong>The FEMA floodplain is a thin corridor along Cooks Creek, while
+      the High/Very-High buildings (dots) are spread across the warmer
+      susceptibility areas, mostly outside it.</strong>
+      This is the same susceptibility-plus-FEMA overlay the Township assembled
+      in ArcGIS, with the high-risk buildings added. Cyan triangles are the few
+      high-risk buildings that do fall inside the floodplain; the gold star is
+      the Springtown drinking-water well.
+    </figcaption>
+  </figure>
+
+  <div class="warn">
+    <strong>Only about two dozen buildings in the whole township fall inside
+    the FEMA 1%-annual-chance floodplain</strong> (15 of them in the
+    High/Very-High bands). The other <strong>1,457 high-risk buildings are
+    outside the mapped floodplain</strong>, and <strong>257 of those sit
+    within 300 feet of its edge</strong> (71 within 100 feet). The current
+    FEMA panels here reflect historic conditions, so this screen is flagging
+    terrain-and-drainage exposure the regulatory map may not capture, the kind
+    of place worth a closer look before it is treated as low risk.
+  </div>
+
+  <div class="note">
+    <strong>What this count is, and is not.</strong>
+    It is a relative screen, not a list of buildings that have flooded. We have
+    no Township record of which buildings flood, which is why this is a
+    follow-on worth doing properly (for example, joining confirmed
+    flooded-property addresses, if the Township can assemble any). A building in
+    the Very-High band is in the most susceptible fifth of Springfield, not
+    certain to flood.
+  </div>
+</section>
+
+
+<!-- ============================================================= -->
+<!-- FINDING 5: SENSITIVE RECEPTORS                                 -->
+<!-- ============================================================= -->
+<section id="findings-receptors">
+  <h2>Sensitive receptors</h2>
+
+  <p class="lede">
+    <strong>Beyond the roads and the well, four more named sites and the
+    village zoning score High or Very High: the historic covered bridge, one
+    more Cooks Creek crossing, the school, and the municipal building.</strong>
+    Village (VR/VC) zoning is used as the practical population-center
+    receptor, since census data below whole-township scale is not useful
+    here.
+  </p>
+
+  <h3>Bridges, school, and the municipal building</h3>
+  <table>
+    <thead>
+      <tr><th>Site</th><th class="num">Susceptibility</th><th>Tier</th><th>Note</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Springfield Elementary School</td><td class="num">0.77</td><td><span class="cat cat-5">Very High</span></td><td>Alternate emergency-operations site</td></tr>
+      <tr><td>Township Rd T485 bridge (Cooks Creek)</td><td class="num">0.77</td><td><span class="cat cat-5">Very High</span></td><td>Added for completeness; same reach as Bridge St &amp; 212</td></tr>
+      <tr><td>Knecht's Covered Bridge (built 1873)</td><td class="num">0.76</td><td><span class="cat cat-5">Very High</span></td><td>County-designated historic structure</td></tr>
+      <tr><td>Springfield Township municipal building</td><td class="num">0.66</td><td><span class="cat cat-4">High</span></td><td>Primary emergency-operations center, next to the school</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Village zoning (VR/VC): the population-center proxy</h3>
+  <p>
+    All 8 VR/VC polygons in the township score Moderate to Very High on
+    average; four sit <strong>entirely</strong> inside the High-or-above
+    band. VR/VC zoning covers a small share of the township's area but holds
+    a disproportionate share of its buildings, <strong>537 of the
+    township's 3,558</strong>, about <strong>4x the township-wide building
+    density</strong>. That concentration of people and structures is the
+    practical reason to use VR/VC extent as the population-center receptor
+    in place of township-wide census data.
+  </p>
+  <table>
+    <thead>
+      <tr><th>Zoning</th><th class="num">Acres</th><th class="num">Mean susceptibility</th><th class="num">Max susceptibility</th><th class="num">% in High or above</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Village Commercial</td><td class="num">16.1</td><td class="num">0.64</td><td class="num">0.75</td><td class="num">100%</td></tr>
+      <tr><td>Village Commercial</td><td class="num">28.4</td><td class="num">0.70</td><td class="num">0.80</td><td class="num">100%</td></tr>
+      <tr><td>Village Residential</td><td class="num">149.3</td><td class="num">0.60</td><td class="num">0.79</td><td class="num">85%</td></tr>
+      <tr><td>Village Residential</td><td class="num">46.3</td><td class="num">0.67</td><td class="num">0.84</td><td class="num">100%</td></tr>
+      <tr><td>Village Residential</td><td class="num">56.6</td><td class="num">0.72</td><td class="num">0.84</td><td class="num">100%</td></tr>
+      <tr><td>Village Residential</td><td class="num">140.8</td><td class="num">0.48</td><td class="num">0.64</td><td class="num">20%</td></tr>
+      <tr><td>Village Commercial</td><td class="num">38.8</td><td class="num">0.53</td><td class="num">0.61</td><td class="num">19%</td></tr>
+      <tr><td>Village Residential</td><td class="num">89.0</td><td class="num">0.44</td><td class="num">0.69</td><td class="num">18%</td></tr>
+    </tbody>
+  </table>
+
+  <figure>
+    <img src="assets/receptors_map.png"
+         alt="Map of Springfield Township showing flood susceptibility, VR/VC village zoning outlines, Highway Commercial and Development District zoning outlines in the southwestern corner, the FEMA floodplain, the historic covered bridge, the additional bridge, the school, the municipal building, and the highest-susceptibility hotspot">
+    <figcaption>
+      <strong>The new receptors cluster around Springtown village and the
+      Route 212 corridor; the true susceptibility hotspot sits apart from
+      them, in the southwestern Highway Commercial corridor.</strong>
+      Village zoning (green outline) and the Highway Commercial /
+      Development District zoning (dashed) are both cross-checked against
+      the FEMA floodplain (blue) and the composite susceptibility raster.
+    </figcaption>
+  </figure>
+
+  <div class="warn">
+    <strong>Near Springtown village, FEMA and the susceptibility map
+    disagree.</strong> In the VR/VC zone closest to the well, about
+    <strong>47% of the High-or-above susceptibility area sits outside the
+    FEMA-mapped floodplain</strong>. This matches the same pattern already
+    documented for buildings township-wide (see
+    <a href="#findings-buildings">Buildings in the high-risk zones</a>): the
+    FEMA panels for this stretch of Cooks Creek are largely historic, so the
+    regulatory map likely understates exposure right at the village center.
+  </div>
+
+  <div class="note">
+    <strong>What this adds, and what it does not change.</strong>
+    These receptors are point samples or zone averages of the same relative
+    susceptibility score used everywhere else on this page, not a hydraulic
+    study of any specific structure. They do not change the three
+    recommendations at the top of this page; they extend the same evidence
+    to more of the places the Township asked about.
+  </div>
 </section>
 
 
@@ -823,6 +1029,8 @@
     <li>The well-generator memo to the Township.</li>
     <li>The 10 m susceptibility GeoTIFF for use in QGIS or ArcGIS.</li>
     <li>Per-point CSVs of every sampled metric.</li>
+    <li>The building-exposure counts by susceptibility band, type, and FEMA zone.</li>
+    <li>The sensitive-receptors table (bridges, school, municipal building, village zoning).</li>
     <li>The analysis scripts (Python and Google Earth Engine).</li>
   </ul>
 
